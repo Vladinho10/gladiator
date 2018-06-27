@@ -38,34 +38,35 @@ const caesarMakeDicision = (num, arena)=> {
   let temp = faker.random.number(1);
   return arr[temp]
 }
-
+console.log(caesarMakeDicision()+ 'hellllllllllllll');
 const start = (arena)=> {
   let raund = setInterval(()=>{
   let randIndex;
+  let opponentsArr;
     for (let i = 0; i < arena.length; i++) {
-      do{
-        randIndex = faker.random.number(arena.length-1);
-      } while (i==randIndex);
+      opponentsArr = arena.filter( (item, index)=>  index !== i  );
+      randIndex = faker.random.number(opponentsArr.length-1);
 
-      arena[i].hit(arena[randIndex]);
-      arena[randIndex].getAngry();
-      arena[randIndex].speedDecrease();
+      arena[i].hit(opponentsArr[randIndex]);
+      opponentsArr[randIndex].getAngry();
+      opponentsArr[randIndex].speedDecrease();
 
       console.log(
         `[${arena[i].name} x ${arena[i].initial_health}]
-          hits ${arena[randIndex].name} x ${arena[randIndex].initial_health}
+          hits ${opponentsArr[randIndex].name} x ${opponentsArr[randIndex].initial_health}
           with power ${arena[i].initial_power}`
       );
       if(i==arena.length-1) console.log('vvvvvvvvvvvvvvvvv');
 
-      if (arena[randIndex].initial_health<=0) {
+      if (opponentsArr[randIndex].initial_health<=0) {
           clearInterval(raund);
           let dicision = caesarMakeDicision();
 
-          if(dicision=='live') {
-            arena[randIndex].initial_health+=50
+          if(dicision=='Live') {
+            console.log('Live');
+            opponentsArr[randIndex].initial_health+=50;
           } else {
-            dying(arena[randIndex], arena);
+            dying(opponentsArr[randIndex], arena);
             console.log("Finish him");
           }
 
@@ -78,7 +79,7 @@ const start = (arena)=> {
           }
       }
     }
-  },100)
+  },1000)
 }
 
 const dying = (gladiator, arena)=> {
