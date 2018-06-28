@@ -4,10 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./public/css/style.css">
+  <link rel="stylesheet" href="./public/css/libCSS/bootstrap.min.css">
   <title>Document</title>
 </head>
 <body>
-  <script type="text/javascript" src="./faker.js"></script>
-  <script type="text/javascript" src="./gladiator.js"></script>
+  <div id="root">
+    <table class="table">
+
+    </table>
+  </div>
+  <div>
+  <button type="button" class="btn center" name="button" onclick="start(arena)">start game</button>
+  <button type="button" class="btn center" name="button" onclick="createTable()">test</button>
+  </div>
+  <div id="arena">
+    <p id="winner" class="text-center"></p>
+    <div id="winnerIcon">
+
+    </div>
+  </div>
+  <div>
+  <table id="chart" class="table">
+
+  </table>
+  </div>
+  <script type="text/javascript" src="./public/js/libJS/faker.js"></script>
+  <script type="text/javascript" src="./public/js/gladiator.js"></script>
 </body>
 </html>

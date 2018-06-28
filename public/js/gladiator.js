@@ -1,7 +1,8 @@
 'use strict';
 
 class Gladiator {
-  constructor() {
+  constructor(iconSrc) {
+    this.iconSrc = iconSrc;
     this.name = faker.name.findName();
     this.initial_health = faker.random.number({min: 80, max: 100});
     this.currentHhealth = this.initial_health;
@@ -30,13 +31,17 @@ class Gladiator {
 const createGladiators = (count)=> {
   let gladiator;
   let arr = [];
+  let icon = '';
   for (let i = 0; i < count; i++) {
-    gladiator = new Gladiator();
+    icon = document.createElement('img');
+    icon.src = `./public/image/${i}.png`
+    gladiator = new Gladiator(icon.src);
     arr.push(gladiator)
   }
   return arr;
 }
 let arena = createGladiators(3);
+// console.log(arena);
 
 const caesarMakeDicision = (num, arena)=> {
   let arr = ["Finish him", "Live"];
@@ -56,6 +61,25 @@ const start = (arena)=> {
         arena[i].hit(opponentsArr[randIndex]);
         opponentsArr[randIndex].getAngry();
         opponentsArr[randIndex].speedDecrease();
+
+        let row = chart.insertRow(-1);
+        let hitter = row.insertCell(0).appendChild(document.createTextNode(
+          `${arena[i].name} x ${arena[i].currentHhealth}`
+        ));
+        let imageNode = document.createElement('IMG');
+        imageNode.src = arena[i].iconSrc;
+        let cellIconHitter = row.insertCell(1).appendChild(imageNode);
+        let cellHit = row.insertCell(2).appendChild(document.createTextNode(`hits`));
+        let oppImageNode = document.createElement('IMG');
+        oppImageNode.src = opponentsArr[randIndex].iconSrc;
+        let cellIconOpp = row.insertCell(3).appendChild(oppImageNode);
+        let cell4 = row.insertCell(4).appendChild(document.createTextNode(
+          `${opponentsArr[randIndex].name} x ${opponentsArr[randIndex].currentHhealth}`
+        ));
+        let cell5 = row.insertCell(5).appendChild(document.createTextNode(
+          `with power ${arena[i].initial_power}`
+        ));
+
 
         console.log(
           `[${arena[i].name} x ${arena[i].currentHhealth}]
@@ -80,18 +104,21 @@ const start = (arena)=> {
               start(arena)
             } else {
               console.log(`winner is ${arena[0].name}`);
+              winner.innerHTML = `winner is ${arena[0].name}`;
+
+              let winnerImg = document.createElement('IMG');
+              winnerImg.src = arena[0].iconSrc;
+              winnerIcon.appendChild(winnerImg);
               console.log(arena);
               return
             }
         }
       }
     }
-  },1000)
+  },100)
 }
 
 const dying = (gladiator, arena)=> {
   let indexGlad = arena.indexOf(gladiator);
   arena.splice(indexGlad, 1)
 }
-
-start(arena);
